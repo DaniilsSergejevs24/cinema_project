@@ -31,11 +31,17 @@ CREATE TABLE USER (
     ProfilePhoto BLOB
 );
 
+CREATE TABLE ScreenType (
+    Type VARCHAR(100) PRIMARY KEY,
+    Price DECIMAL(10, 2) NOT NULL
+);
+
 CREATE TABLE SCREEN (
     ScreenID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(255) NOT NULL,
     Type VARCHAR(100),
-    TotalSeats INT NOT NULL
+    TotalSeats INT NOT NULL,
+    FOREIGN KEY (Type) REFERENCES ScreenType(Type)
 );
 
 CREATE TABLE SEAT (
@@ -83,3 +89,11 @@ CREATE TABLE BOOKEDSEAT (
     FOREIGN KEY (BookingID) REFERENCES BOOKING(BookingID),
     FOREIGN KEY (SeatID) REFERENCES SEAT(SeatID)
 );
+
+//////////////////////////////////////////
+INSERT INTO ScreenType (Type, Price) VALUES
+    ('IMAX', 15.00),
+    ('3D', 12.00),
+    ('Standard', 10.00),
+    ('Mini', 8.00);
+
