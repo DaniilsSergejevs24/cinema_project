@@ -1,0 +1,34 @@
+﻿<Window x:Class="cinema_project.MovieSessionCalendar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Movie Session Calendar" Height="800" Width="500" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <DockPanel Background="#eaf6ff">
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Background="#0077cc" Height="60">
+            <Button Content="🎥" ToolTip="Cinema Main Page" Background="Transparent" Foreground="White" Width="100" FontSize="24" Click="CinemaMain_Click"/>
+            <Button Content="📅" ToolTip="Movie Session Calendar" Background="#005fa3" Foreground="White" Width="100" FontSize="24"/>
+            <Button Content="🔍" ToolTip="Search Page" Background="Transparent" Foreground="White" Width="100" FontSize="24" Click="SearchPage_Click"/>
+            <Button Content="💾" ToolTip="My Tickets" Background="Transparent" Foreground="White" Width="100" FontSize="24" Click="MyTickets_Click"/>
+            <Button Content="👤" ToolTip="My Profile" Background="Transparent" Foreground="White" Width="100" FontSize="24" Click="MyProfile_Click"/>
+        </StackPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+                <TextBlock Text="Movie Sessions" FontSize="28" FontWeight="Bold" Foreground="#0077cc" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+
+                <Calendar Name="SessionCalendar" HorizontalAlignment="Center" Margin="0,10,0,20" 
+                         SelectedDatesChanged="SessionCalendar_SelectedDatesChanged"/>
+
+                <TextBlock Name="SelectedDateText" Text="Select a date to see movie sessions" 
+                          FontSize="18" FontWeight="SemiBold" Foreground="#004080" 
+                          HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+                <ScrollViewer Name="SessionsScrollViewer" Height="300" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Name="SessionsPanel">
+                    </StackPanel>
+                </ScrollViewer>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
