@@ -1,99 +1,98 @@
-# Inspiration lab
+# 🎬 Cinema Booking Application
 
-# 🎬 **Project Overview**
+A desktop cinema booking and management application built with **C# and WPF**, featuring movie browsing, seat selection, user accounts, booking management, and administrative functionality.
 
-The project is a Cinema Booking Application designed to offer a smooth and user-friendly platform for moviegoers to explore available films, read about them, and book their seats with ease. The system is designed with two types of users in mind: regular users and administrators. Each user type has a set of dedicated features tailored to their needs and permissions.
+> **Academic team project — 2 developers**  
+> My primary contribution focused on the **frontend interface, application screens, and user navigation**.
 
-# **Core Features**
+## ✨ Features
 
-**1. Movie Browsing**
+### User Experience
+- Browse available movies and view movie details
+- Search for movies
+- View movie sessions and showtimes
+- Select seats for a cinema session
+- Complete the booking flow through the payment interface
+- View purchased tickets
+- Create and manage a personal account
+- Update profile information and profile picture
+- Change or recover account password
 
-Users can view a list of currently available movies.
+### Administration
+- Dedicated administrator login
+- User management through an admin dashboard
 
-Each movie has:
+## 🔐 Security
 
-·      A title
+The project includes several authentication and security measures:
 
-·      Poster
+- User passwords are hashed using **PBKDF2 with SHA-256 and a random salt**
+- Password hashes are compared using constant-time comparison
+- Database operations use parameterized SQL queries where user input is supplied
+- Administrator credentials are loaded from environment variables rather than stored directly in source code
+- Local Visual Studio user configuration files are excluded from version control
 
-·      Genre
+## 🛠️ Tech Stack
 
-·      Description or synopsis
+- **C#**
+- **.NET 8**
+- **WPF / XAML**
+- **MySQL**
+- **MySql.Data**
+- **MySqlConnector**
 
-·      Showtimes
+## 🏗️ Application Structure
 
-·      Rating
+The application is organized into separate WPF windows and pages for the main user flows:
 
-**2. Seat Booking System**
+- `CinemaMainWindow` — main cinema interface
+- `MovieDetailsWindow` — movie information
+- `MovieSessionCalendar` — session selection
+- `SeatSelectionWindow` — cinema seat selection
+- `PaymentWindow` — booking/payment interface
+- `MyTickets` — user's tickets
+- `MyProfile` — account management
+- `SearchPage` — movie search
+- `AdminLoginWindow` — administrator authentication
+- `AdminDashboardWindow` — administration interface
+- `DatabaseHelper` — database and user-account operations
 
-Users can:
+## 🚀 Running the Project
 
-·      Choose a movie and showtime
+### Requirements
 
-·      View the seating layout
+- Windows
+- .NET 8 SDK
+- MySQL server
+- Visual Studio with WPF/.NET desktop development support
 
-·      Select available seats
+### Setup
 
-·      Confirm and pay for their bookings
+1. Clone the repository.
+2. Configure a local MySQL database named `database_cinema`.
+3. Update the local database connection settings if your MySQL configuration differs.
+4. Configure administrator credentials through the environment variables:
 
-·      Seats once booked are locked for other users, preventing double-booking.
+```text
+CINEMA_ADMIN_ID
+CINEMA_ADMIN_KEY
+```
 
-**3. User Account System**
+5. Open `cinema_project.sln` in Visual Studio.
+6. Restore the required NuGet packages and run the application.
 
-Users can:
+## 👥 Project Context
 
-·      Register and create an account
+This application was developed as an academic team project by two developers.
 
-·      Login/logout securely
+My main responsibility was the **frontend side of the application**, including the WPF/XAML interface, application screens, and navigation between user flows.
 
-·      Upload a profile picture
+The project is included in my portfolio as an example of working with a multi-screen desktop application, collaborating on a shared codebase, and integrating a frontend interface with database-backed application functionality.
 
-·      Change/update their password
+## 👤 Author
 
-·      View their booking history
+**Daniils Sergejevs**
 
-**4. Admin Dashboard**
+## 📝 License
 
-Admins have extended capabilities, including:
-
-·      Add/edit/delete movies
-
-·      Manage showtimes
-
-·      Monitor seat bookings
-
-·      Manage users (view, block/unblock)
-
-·      Upload movie posters and trailers
-
-·      View application statistics and user activity
-
-**5. Authentication and Security**
-
-Passwords are stored **securely** using hashing.
-
-Sessions or tokens are used to maintain user login status.
-
-Basic security validations in place to prevent unauthorized actions.
-
-**6. User Interface & Experience**
-
-Clean, responsive design for easy use on mobile and desktop.
-
-Real-time updates on seat availability.
-
-Clear navigation between pages (home, movie details, account, etc.)
-
-# **In-Depth Functional Flow**
-
-1. Home Page – Displays movies currently showing, maybe categorized by genre or popularity.
-
-2. Movie Detail Page – When a user clicks on a movie, it leads to a detailed page with synopsis, cast, showtimes, and a “Book Now” button.
-
-3. Seat Selection Page – Graphical or tabular seat layout, showing available, selected, and booked seats.
-
-4. Booking Confirmation Page – Summary of selected seats, movie, date/time, and total price. Payment interface (if included).
-
-5. Profile Page – Users can update personal info, view past bookings, and manage their profile picture.
-
-6. Admin Panel – Only accessible to admins. Allows full control over the content of the platform (movies, users, etc.)
+This project was created for educational purposes.

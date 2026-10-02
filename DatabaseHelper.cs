@@ -18,17 +18,53 @@ namespace cinema_project
 
         public static string HashPassword(string password)
         {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToBase64String(bytes);
-            }
+            const int iterations = 100_000;
+            const int saltSize = 16;
+            const int hashSize = 32;
+
+            byte[] salt = RandomNumberGenerator.GetBytes(saltSize);
+
+            byte[] hash = Rfc2898DeriveBytes.Pbkdf2(
+                password,
+                salt,
+                iterations,
+                HashAlgorithmName.SHA256,
+                hashSize
+            );
+
+            return $"{iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
         }
 
-        public static bool VerifyPassword(string password, string hashedPassword)
+        public static bool VerifyPassword(string password, string storedPassword)
         {
-            string hashOfInput = HashPassword(password);
-            return hashOfInput.Equals(hashedPassword, StringComparison.Ordinal);
+            try
+            {
+                string[] parts = storedPassword.Split('.');
+
+                if (parts.Length != 3)
+                    return false;
+
+                int iterations = int.Parse(parts[0]);
+                byte[] salt = Convert.FromBase64String(parts[1]);
+                byte[] expectedHash = Convert.FromBase64String(parts[2]);
+
+                byte[] actualHash = Rfc2898DeriveBytes.Pbkdf2(
+                    password,
+                    salt,
+                    iterations,
+                    HashAlgorithmName.SHA256,
+                    expectedHash.Length
+                );
+
+                return CryptographicOperations.FixedTimeEquals(
+                    actualHash,
+                    expectedHash
+                );
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task InitializeDatabaseAsync()

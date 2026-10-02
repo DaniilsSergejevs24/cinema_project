@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,10 +6,6 @@ namespace cinema_project
 {
     public partial class AdminLoginWindow : Window
     {
-        // Admin credentials!!!
-        private const string ADMIN_ID = "admin@cinema.com";
-        private const string AUTH_KEY = "CinemaAdmin2024!";
-
         public AdminLoginWindow()
         {
             InitializeComponent();
@@ -31,10 +27,29 @@ namespace cinema_project
 
             try
             {
-                if (adminId.Equals(ADMIN_ID, StringComparison.OrdinalIgnoreCase) &&
-                    authKey.Equals(AUTH_KEY, StringComparison.Ordinal))
+                string expectedAdminId =
+                    Environment.GetEnvironmentVariable("CINEMA_ADMIN_ID");
+
+                string expectedAuthKey =
+                    Environment.GetEnvironmentVariable("CINEMA_ADMIN_KEY");
+
+                if (string.IsNullOrWhiteSpace(expectedAdminId) ||
+                    string.IsNullOrWhiteSpace(expectedAuthKey))
                 {
-                    ShowStatusMessage("Access granted! Opening admin panel...", System.Windows.Media.Brushes.Green);
+                    ShowStatusMessage(
+                        "Admin credentials are not configured.",
+                        System.Windows.Media.Brushes.Red
+                    );
+                    return;
+                }
+
+                if (adminId.Equals(expectedAdminId, StringComparison.OrdinalIgnoreCase) &&
+                    authKey.Equals(expectedAuthKey, StringComparison.Ordinal))
+                {
+                    ShowStatusMessage(
+                        "Access granted! Opening admin panel...",
+                        System.Windows.Media.Brushes.Green
+                    );
 
                     AdminDashboardWindow adminDashboard = new AdminDashboardWindow();
                     adminDashboard.Show();
@@ -42,12 +57,18 @@ namespace cinema_project
                 }
                 else
                 {
-                    ShowStatusMessage("Invalid admin ID or authentication key.", System.Windows.Media.Brushes.Red);
+                    ShowStatusMessage(
+                        "Invalid admin ID or authentication key.",
+                        System.Windows.Media.Brushes.Red
+                    );
                 }
             }
             catch (Exception ex)
             {
-                ShowStatusMessage($"Error: {ex.Message}", System.Windows.Media.Brushes.Red);
+                ShowStatusMessage(
+                    $"Error: {ex.Message}",
+                    System.Windows.Media.Brushes.Red
+                );
             }
             finally
             {
@@ -73,7 +94,8 @@ namespace cinema_project
 
         private void ClearStatusMessage()
         {
-            if (StatusMessage != null && !string.IsNullOrEmpty(StatusMessage.Text) &&
+            if (StatusMessage != null &&
+                !string.IsNullOrEmpty(StatusMessage.Text) &&
                 StatusMessage.Foreground != System.Windows.Media.Brushes.Blue)
             {
                 StatusMessage.Text = "";
